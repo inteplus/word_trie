@@ -1,7 +1,6 @@
 #include <string>
 #include <memory>
 #include <map>
-#include <vector>
 
 
 struct TrieNode_c;
@@ -30,7 +29,6 @@ struct TrieNode_c {
 };
 
 
-struct TrieSerialisable_c;
 struct Trie_c {
   TrieNode_lp m_root;
 
@@ -52,20 +50,4 @@ struct Trie_c {
 
   // searches for a TrieNode_c representing a word
   TrieNode_p search(std::string const& word) const;
-
-  // turn this structure into an equivalence that is serialisable
-  TrieSerialisable_c serialisable() const;
-};
-
-
-// structure for serializing/deserializing Trie_c. The trie is flattened from leaves to root (root node is the last node).
-struct TrieSerialisable_c {
-  int m_num_nodes;
-  std::vector<int> m_parent;
-  std::vector<char> m_char;
-  std::vector<long long> m_count;
-  std::vector<bool> m_endofword;
-
-  // turn this structure into a trie
-  Trie_c trie() const;
 };
