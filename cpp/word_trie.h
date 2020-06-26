@@ -1,3 +1,7 @@
+#ifndef WORD_TRIE_H
+#define WORD_TRIE_H
+
+
 #include <string>
 #include <memory>
 #include <map>
@@ -51,3 +55,6 @@ struct Trie_c {
   // searches for a TrieNode_c representing a word
   TrieNode_p search(std::string const& word) const;
 };
+
+
+#endif

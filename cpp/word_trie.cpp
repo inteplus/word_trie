@@ -15,8 +15,9 @@ int TrieNode_c::num_descendants() const {
 
 
 int TrieNode_c::update_id_map(std::map<TrieNode_c*, std::pair<int, char> >& node_map, int starting_id, char ch) const {
-  for(auto iter = m_children.begin(); iter != m_children.end(); iter++)
-    starting_id += iter->second->update_id_map(node_map, starting_id, iter->first);
+  for(auto iter = m_children.begin(); iter != m_children.end(); iter++) {
+    starting_id = iter->second->update_id_map(node_map, starting_id, iter->first);
+  }
   node_map[(TrieNode_p)this] = std::make_pair(starting_id, ch);
   return starting_id+1;
 }

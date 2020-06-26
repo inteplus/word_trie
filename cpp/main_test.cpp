@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "word_trie.h"
+#include "word_trie_ser.h"
 
 
 int main()
@@ -11,6 +12,16 @@ int main()
   trie.insert("harsh");
   trie.insert("sharma",3);
   trie.insert("harry");
+
+
+  TrieSerializable_c trie_ser = trie_serializable(trie);
+  Trie_c trie2 = trie_ser.trie();
+
+  if(trie.total_count() != trie2.total_count()) {
+    std::cerr << "Wrong!!!!!!" << std::endl;
+  }
+
+  
   std::string p;
   std::cout << "Enter the prefix :";
   std::cin >> p;
