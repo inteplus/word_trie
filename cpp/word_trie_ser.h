@@ -3,7 +3,6 @@
 
 
 #include <vector>
-#include <boost/serialization/access.hpp>
 #include "word_trie.h"
 
 
@@ -18,18 +17,6 @@ struct TrieSerializable_c {
 
   // turn this structure into a trie
   Trie_c trie() const;
-
-private: // serialization
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive & ar, const unsigned int version)
-    {
-        ar & m_num_nodes;
-        ar & m_parent;
-        ar & m_char;
-	ar & m_count;
-	ar & m_endofword;
-    }
 };
 
 
