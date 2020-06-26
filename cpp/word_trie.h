@@ -54,6 +54,12 @@ struct Trie_c {
 
   // searches for a TrieNode_c representing a word
   TrieNode_p search(std::string const& word) const;
+
+  // estimates the prior probability of a word
+  double prob(std::string const& word) const;
+
+  // estimates the probability of a word given its parent (ie without the last letter)
+  double cond_prob(std::string const& word) const;
 };
 
 

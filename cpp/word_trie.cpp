@@ -58,3 +58,17 @@ TrieNode_p Trie_c::search(std::string const& word) const {
   }
   return current;
 }
+
+double Trie_c::prob(std::string const& word) const {
+  TrieNode_p node = search(word);
+  if(!node)
+    return 0.0;
+  return ((double) node->m_count) / total_count();
+}
+
+double Trie_c::cond_prob(std::string const& word) const {
+  TrieNode_p node = search(word);
+  if(!node)
+    return 0.0;
+  return ((double) node->m_count) / node->m_parent->m_count;
+}
