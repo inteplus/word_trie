@@ -1,9 +1,14 @@
 #include <iostream>
+#include <fstream>
 #include <cstdio>
 #include <vector>
 #include <algorithm>
 #include <cmath>
-#include "word_trie.h"
+
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
+
+#include "wordtrie.h"
 
 
 int TrieNode_c::num_descendants() const {
@@ -11,15 +16,6 @@ int TrieNode_c::num_descendants() const {
   for(auto iter = m_children.begin(); iter != m_children.end(); iter++)
     cnt += iter->second->num_descendants();
   return cnt;
-}
-
-
-int TrieNode_c::update_id_map(std::map<TrieNode_c*, std::pair<int, char> >& node_map, int starting_id, char ch) const {
-  for(auto iter = m_children.begin(); iter != m_children.end(); iter++) {
-    starting_id = iter->second->update_id_map(node_map, starting_id, iter->first);
-  }
-  node_map[(TrieNode_p)this] = std::make_pair(starting_id, ch);
-  return starting_id+1;
 }
 
 
@@ -72,3 +68,19 @@ double Trie_c::cond_prob(std::string const& word) const {
     return 0.0;
   return ((double) node->m_count) / node->m_parent->m_count;
 }
+
+
+void load_from_file(std::string const& filepath, Trie_c& out_trie) {
+  std::ifstream ifs(filepath);
+  boost::archive::text_iarchive ia(ifs);
+  ia >> out_trie;
+}
+
+
+void save_to_file(std::string const& filepath, Trie_c const& in_trie) {
+  std::ofstream ofs(filepath);
+  boost::archive::text_oarchive oa(ofs);
+  oa << in_trie;
+}
+
+
