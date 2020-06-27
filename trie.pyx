@@ -1,4 +1,5 @@
 # distutils: language = c++
+# cython: language_level = 3
 
 from wordtrie cimport Trie_c, load_from_file, save_to_file
 
@@ -24,8 +25,10 @@ cdef class Trie:
         return self.c_trie.cond_prob(word.encode())
 
 
-def load(str filepath, Trie trie):
-    return load_from_file(filepath.encode(), trie.c_trie)
+def load(str filepath):
+    trie = Trie()
+    load_from_file(filepath.encode(), trie.c_trie)
+    return trie
 
 def save(str filepath, Trie trie):
-    return save_to_file(filepath.encode(), trie.c_trie)
+    save_to_file(filepath.encode(), trie.c_trie)

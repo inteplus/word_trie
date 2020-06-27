@@ -4,7 +4,8 @@ from setuptools import Extension, setup
 from Cython.Build import cythonize
 
 setup(name='trie',
-      description="The most fundamental Python modules for Minh-Tri Pham",
+      version="0.0.1",
+      description="A simple word trie module.",
       author=["Minh-Tri Pham"],
       ext_modules = cythonize(Extension(
           "trie",                                # the extension name
