@@ -108,11 +108,11 @@ private: // serialization
 };
 
 
-// loads a trie from a std::istream
+// loads a trie from an std::istream
 void load(std::istream& is, Trie_c& out_trie);
 
 
-// saves a trie to a std::ostream
+// saves a trie to an std::ostream
 void save(std::ostream& os, Trie_c const& in_trie);
 
 
