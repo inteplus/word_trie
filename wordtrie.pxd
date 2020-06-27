@@ -15,7 +15,7 @@ cdef extern from "wordtrie.h":
         Trie_c()
         long long total_count()
         int num_nodes()
-        void insert(const string& word, long long count=1)
+        void insert(const string& word, long long count)
         double prob(const string& word)
         double cond_prob(const string& word)
 

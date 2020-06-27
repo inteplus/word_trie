@@ -1,10 +1,6 @@
 # distutils: language = c++
 
-from wordtrie cimport Trie_c
-
-def check_str(word):
-    if not isinstance(word, str):
-       raise ValueError("Expected word '{}' to be a string, received a {}.".format(word, type(word)))
+from wordtrie cimport Trie_c, load_from_file, save_to_file
 
 cdef class Trie:
     cdef Trie_c c_trie
@@ -18,14 +14,18 @@ cdef class Trie:
     def num_nodes(self):
         return self.c_trie.num_nodes()
 
-    def insert(self, word, count=1):
-        check_str(word)
-        self.c_trie.insert(word, count)
+    def insert(self, str word, int count=1):
+        self.c_trie.insert(word.encode(), count)
 
-    def prob(self, word):
-        check_str(word)
-        return self.c_trie.prob(word)
+    def prob(self, str word):
+        return self.c_trie.prob(word.encode())
 
-    def cond_prob(self, word):
-        check_str(word)
-        return self.c_trie.cond_prob(word)
+    def cond_prob(self, str word):
+        return self.c_trie.cond_prob(word.encode())
+
+
+def load(str filepath, Trie trie):
+    return load_from_file(filepath.encode(), trie.c_trie)
+
+def save(str filepath, Trie trie):
+    return save_to_file(filepath.encode(), trie.c_trie)
