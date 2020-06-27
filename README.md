@@ -1,4 +1,4 @@
-# word_trie
+# wordtrie
 
 A small library for constructing a word trie and using the word trie to estimate probabilities.
 
