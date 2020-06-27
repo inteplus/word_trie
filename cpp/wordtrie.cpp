@@ -70,17 +70,27 @@ double Trie_c::cond_prob(std::string const& word) const {
 }
 
 
+void load(std::istream& is, Trie_c& out_trie) {
+  boost::archive::text_iarchive ia(is);
+  ia >> out_trie;
+}
+
+
+void save(std::ostream& os, Trie_c const& in_trie) {
+  boost::archive::text_oarchive oa(os);
+  oa << in_trie;
+}
+
+
 void load_from_file(std::string const& filepath, Trie_c& out_trie) {
   std::ifstream ifs(filepath);
-  boost::archive::text_iarchive ia(ifs);
-  ia >> out_trie;
+  load(ifs, out_trie);
 }
 
 
 void save_to_file(std::string const& filepath, Trie_c const& in_trie) {
   std::ofstream ofs(filepath);
-  boost::archive::text_oarchive oa(ofs);
-  oa << in_trie;
+  save(ofs, in_trie);
 }
 
 
