@@ -6,12 +6,14 @@ A small library for constructing a word trie and using the word trie to estimate
 
 ### C++
 
-Use cmake on the `cpp' folder.
+Use cmake in the `cpp' folder.
 
 
 ### Python
 
-Use setuptools on the `python' folder.
+Use setuptools in the `python' folder.
+
+## More updates later
 
 
 -- Minh-Tri Pham
