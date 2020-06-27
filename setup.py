@@ -3,7 +3,7 @@
 from setuptools import Extension, setup
 from Cython.Build import cythonize
 
-setup(name='triemt',
+setup(name='wordtrie',
       version="0.0.1",
       description="A simple word trie module.",
       author=["Minh-Tri Pham"],
