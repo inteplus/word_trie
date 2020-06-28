@@ -2,23 +2,28 @@
 # cython: language_level = 3
 
 from wordtrie cimport Trie_c, load_from_file, save_to_file
-import os.path
+import mt.base.path as _bp
+import mt.base.threading as _bt
 
 cdef class Trie:
     '''A simple word trie implemented in C++.'''
 
     cdef Trie_c c_trie
+    cdef object lock
 
     def __cinit__(self):
         self.c_trie = Trie_c()
+        self.lock = _bt.ReadWriteLock()
 
     def total_count(self):
         '''Returns the total number of word counts.'''
-        return self.c_trie.total_count()
+        with _bt.ReadRWLock(self.lock):
+            return self.c_trie.total_count()
 
     def num_nodes(self):
         '''Returns the total number of nodes of the trie.'''
-        return self.c_trie.num_nodes()
+        with _bt.ReadRWLock(self.lock):
+            return self.c_trie.num_nodes()
 
     def insert(self, str word, int count=1):
         '''Inserts a word with frequency/count.
@@ -29,8 +34,9 @@ cdef class Trie:
             The word to be inserted.
         count : int
             The number of times the word occurs.
-        '''        
-        self.c_trie.insert(word.encode(), count)
+        '''
+        with _bt.WriteRWLock(self.lock):
+            self.c_trie.insert(word.encode(), count)
 
     def prob(self, str word):
         '''Returns the probability that the word occurs.
@@ -45,7 +51,8 @@ cdef class Trie:
         double
             The probability that the word occurs.
         '''
-        return self.c_trie.prob(word.encode())
+        with _bt.ReadRWLock(self.lock):
+            return self.c_trie.prob(word.encode())
 
     def cond_prob(self, str word):
         '''Returns the probability that the word occurs, given that everything except the last character has been given.
@@ -60,7 +67,8 @@ cdef class Trie:
         double
             The probability that the word occurs.
         '''
-        return self.c_trie.cond_prob(word.encode())
+        with _bt.ReadRWLock(self.lock):
+            return self.c_trie.cond_prob(word.encode())
 
     # ----- serialization -----
 
@@ -78,7 +86,7 @@ cdef class Trie:
         Trie
             a loaded Trie
         '''
-        if not os.path.exists(filepath):
+        if not _bp.exists(filepath):
             raise OSError("File not found: '{}'".format(filepath))
 
         trie = Trie()
@@ -93,4 +101,5 @@ cdef class Trie:
         filepath : str
             path to file to save to
         '''
-        save_to_file(filepath.encode(), self.c_trie)
+        with _bt.ReadRWLock(self.lock):
+            save_to_file(filepath.encode(), self.c_trie)
